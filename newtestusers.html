@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>New Users</h1>
+<ul id="users"></ul>
+</body>
+</html>
+
+<script>
+    function createNode(element) {
+        return document.createElement(element);
+    }
+
+    function append(parent, el) {
+        return parent.appendChild(el);
+    }
+
+    const ul = document.getElementById('users');
+    const url = 'https://randomuser.me/api/?results=20';
+    fetch(url)
+        .then((resp) => resp.json())
+        .then(function(data) {
+            let user = data.results;
+            return user.map(function(user) {
+                let li = createNode('li'),
+                    img = createNode('img'),
+                    span = createNode('span');
+                img.src = user.picture.medium;
+                span.innerHTML = `${user.name.first} ${user.name.last}`;
+                append(li, img);
+                append(li, span);
+                append(ul, li);
+            })
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+
+
+</script>
